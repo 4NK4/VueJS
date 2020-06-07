@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!--
+    功能分析:
+        通过根元素传值给子元素,实现子元素的该值的v-model
+
+        总结:data不会监听props中的值
+-->
+
+<body>
+
+    <script src='../lib/vue-2.6.10.js'></script>
+
+    <div id='app'>
+        <h1>{{input_text}}</h1>
+        <input type="text" v-model.lazy="input_text">
+        <hr />
+        <cnp-panel :re_show_text="input_text" @emit_resp_data="rec_child_envent"></cnp-panel>
+    </div>
+
+    <template id="cnp_panel_tp">
+        <div>
+            <h1>{{show_text}}</h1>
+            <label>请输入文字: <input type="text" :value="show_text" @input="emitdata"></label>
+        </div>
+    </template>
+
+
+
+    <script>
+        const cnp_panel = {
+            template: "#cnp_panel_tp",
+            props: {
+                re_show_text: String
+            },
+            data() {
+                return {
+                    show_text: this.re_show_text
+                }
+            },
+            watch: {
+                re_show_text(new_value) { //实现了data监听props数据的改变
+                    this.show_text = new_value
+                }
+            },
+            methods: {
+                emitdata(event) {
+                    this.show_text = event.target.value
+                    this.$emit("emit_resp_data", this.show_text)
+                }
+            }
+        }
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                input_text: "..."
+            },
+            methods: {
+                rec_child_envent(arg) {
+                    this.input_text = arg
+                }
+            },
+            components: {
+                "cnp-panel": cnp_panel
+            }
+        })
+    </script>
+
+</body>
+
+</html>

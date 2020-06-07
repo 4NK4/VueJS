@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!--
+        vue-router 是将url 与组件映射的一个东西
+
+        路由就是根据某一规则,寻找某一目标的过程!
+        寻找的过程应有一个映射表,是一一对应的关系
+         
+        服务型网站--网页的第一阶段
+            一个url请求到服务器,服务器准备好该url请求的页面,返回给浏览器
+            其中服务器就做了路由的操作,即:一个url映射一个指定的页面,这就叫后端路由
+         
+        前后端分离----网页发展的第二阶段
+            后来 有了ajax 就i不需要服务器整的重新渲染一个页面返回给前端了,直接通过ajax请求一些数据
+            然后js动态的添加修改dom.
+                其具体的请求过程是,通过url请求静态资源服务器(返回HTML css  js),HTML css浏览器直接渲染,但是
+                js将会被浏览器一行行解析执行,于是运行到ajax的js代码时,就会发送请求到动态服务器(连接的数据库的服务器)
+                返回一些数据,然后js就根据这些数据和业务逻辑相应的更改dom,这就是前后端分离的概念,也叫做前端渲染
+
+        单页面富应用(SPA)---网页发展的第三阶段
+            基于第二阶段,将url路由提取到前端,即前端来维护路由规则
+            其具体过程是:用户首先url请求了静态资源服务,一次性将所有的静态资源全部返回,然后浏览器渲染
+                但是这个时候出现了一个问题,那就是我点击某个按钮要切换一个页面怎么办(页面在浏览器上方也要显示相应url)
+                而且我也能通过这个url导航到该页面?
+                    这就需要使用到前端路由了,前端路由不会发送请求到静态资源服务器,而是对应到js中的某个组件
+                    这里有个疑问,如果用户直接使用的是某个页面的地址去请求静态资源服务器会怎么样?
+                    改变路由整个页面是不刷新的.(默认的 如果url一旦发生改变,则会去请求服务器)
+                    如何让他不刷新呢?又改变url的值呢?
+                        1.改变url里面的hash值
+                            location.hash="aa" 这个时候url会变成 localhost:8080/#/aa
+                            也就是说通过点击等方式,改变其hash实现url值的变化,这个时候监听这个hash就能实现页面的切换了,
+                            这种方式不会向服务器请求,即无刷新,那么如果用户通过输入的url的方式,则会重新请求服务,并刷新
+                        2.通过history模式的pushState 实现无刷新改变url
+                            pushState压入的数据,都在栈顶,而url只显示栈顶,所以通过history.back()就能把栈顶的数据弹出
+                            那么就会显示第二栈顶数据,这就实现了url的回溯 即操作轨迹的回退
+                            当使用这种模式的时候,就有一个与指针类似的东西:
+                                history.go(-1) history.back() 跳转到偏移的栈位置
+                                history.go(1) history.forward() 向栈底前进
+                        3.通过history对象的replaceState 实现无刷新改变url
+                            缺点:他不是栈结构,因此没有回退.          
+                        
+                        4.数据结构看郝斌老师的课程
+                        5.前端三大框架的路由
+                            Angular ngRouter
+                            React ReactRouter
+                            Vue vue-router
+        vue-router的使用与配置
+            npm install vue-router --save
+            vue-router是一个插件
+                0.创建router文件夹,加入一个index.js文件
+                1.导入vue 和vue-router
+                    Vue.use(路由对象)--安装路由插件
+                2.创建路由实例,并传入routes路由映射对象,值为数组类型
+                3.默认导出该路由实例
+                3.在Vue实例中使用router属性挂载导入的路由对象
+        创建vue-router于组件的映射关系:
+            1.创建路由组件
+            2.配置组件于url映射
+            3.使用路由<router-link to="/home"> 和<router-view>--渲染 路由返回的组件容器
+
+            路由的重定向 redirect
+                解决了一个什么问题呢?
+                    就是首页可能希望某个组件,一出来就显示,那么我们在路由中配置一个
+                        path:''
+                        component:'/Home'
+                        当path为''时就触发,这一般是首页刚进入的时候,就直接显示该组件
+                        但是,url并没有变化,导致页面于组件的关系不统一,于是:
+                        path:''
+                        redirect:'/Home'
+                        component:'/Home'
+                        这样既能实现,已进入首页默认显示某个组件的同时,url也能做到一致性
+
+                vue-router默认使用哈希值,url中带#  如果使用history的话就不会有这个问题
+                    在new的vue-router实例中加入
+                    mode:'history'
+
+                如何让浏览器没有回退呢?
+                    在<router-link> 中加入repalce
+                如何让点击的按钮改变样式呢?
+                    在路由对象中使用lickActiveClass去命名被点击的对象,它会动态赋值这个名称
+                    所以设置你命名的名称样式即可
+                如何通过事件去跳转呢?
+                    this.$router.[push][repalce]('/Home')
+                路由参数
+                    跳转到某个url我还希望后面/加上用户信息
+                    在路由映射配置中
+                        path:'/home/:id'
+                        而后<router-link>中就可以传值                            
+                            <router-link to="/home/zhangshan">
+                        那么在home组件中取值
+                                this.$route.params.id  这个route是当前活跃的router
+        路由懒加载(将js分包,代码中的自定义组件 都是用懒加载)
+            解决了一个bundle上万行解析慢的问题
+        路由的嵌套使用
+            在路由映射中加入childen即可
+        导航守卫
+            用于监听路由的跳转
+                //实现每次跳转动态改变tittle
+                router.beforEach((to,from,next)=>{
+                    document.tittle=to.matched[0].meta.tittle//解决子集嵌套问题
+                    next()
+                })
+
+
+         keep-alive
+                解决路由后的无状态问题,因为每次导航出去,上一页的页面内容展开状态是不保存的,每次都是重新创建了一个组件. 
+                那么它就用来保存页面状态,等你返回时 也是那个状态
+                inlude 组件名称 是只缓存该组件
+                exclude 组件名称 不缓存该组件
+
+                                        
+
+    基本使用
+    嵌套路由
+    参数传递
+    导航守卫
+    keep-alive
+-->
+
+<body>
+    
+</body>
+</html>

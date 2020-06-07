@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!--
+    v-model经常在表单中常用--表示双向绑定
+    思考?为什么其他指令已经够页面交互了,还需要一个v-model呢?
+    因为属性绑定只支持单向的绑定,即model-v的单向过程,model数值变化 则view变化,但是如果view有变化,model则不会变化
+
+    v-model的实现方式 其实就是v-bind 和v-on:imput 事件绑定的结合
+-->
+<body>
+    <script src='../lib/vue-2.6.10.js'></script>
+    <div id='app'>
+        <!--这里使用属性绑定的方式,只能实现单向的model-v的绑定 这里要想改变view的值,只能通过改变model值取实现-->
+        <input type="text" :value="count">
+        <button @click="upd">改变model中的值</button>
+
+
+        <input type="text" :value="count" @input="count = $event.target.value"><!--这就是v-modle的实现原理-->
+
+        
+        <input type="text" v-model="count"><!--这里只要vue改变了 model也会改变   且model改变 view 也改变  这是双向绑定  即v-model  与model-v-->
+        <h1>{{count}}</h1>
+    </div>
+    <script>
+        var vm=new Vue({ 
+            el: '#app',
+            data:{
+                count:0
+            },
+            methods:{
+                upd(){
+                    this.count=20
+                }
+            }
+        })
+    </script>
+</body>
+</html>

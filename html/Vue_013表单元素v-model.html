@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src='../lib/vue-2.6.10.js'></script>
+    <div id='app'>
+
+        <!--使用v-model绑定时,name互斥关系会默认填上-->
+        <label for="male">
+            <input type="radio" id="male" value="男" v-model="sex">男
+        </label>
+        <label for="female">
+            <input type="radio" id="female" value="女" v-model="sex">女
+        </label>
+        <h2>您选择的性别是: {{sex}}</h2>
+
+
+        <hr>
+        <!--1.checkbox单选框-->
+        <label for="agree">
+            <input type="checkbox" id="agree" v-model="isAgree">同意协议
+        </label>
+        <h2>您选择的是: {{isAgree}}</h2>
+        <button :disabled="!isAgree">下一步</button>
+
+        <hr>
+
+        <!--2.checkbox多选框-->
+        <input type="checkbox" value="篮球" v-model="hobbies">篮球
+        <input type="checkbox" value="足球" v-model="hobbies">足球
+        <input type="checkbox" value="乒乓球" v-model="hobbies">乒乓球
+        <input type="checkbox" value="羽毛球" v-model="hobbies">羽毛球
+        <h2>您的爱好是: {{hobbies}}</h2>
+
+        <!--动态生成时-->
+        <label v-for="item in originHobbies" :for="item">
+            <input type="checkbox" :value="item" :id="item" v-model="hobbies">{{item}}
+        </label>
+
+        <hr>
+        <!--单选列表-->
+        <select name="abc" v-model="fruit">
+            <option value="苹果">苹果</option>
+            <option value="香蕉">香蕉</option>
+            <option value="榴莲">榴莲</option>
+            <option value="葡萄">葡萄</option>
+        </select>
+        <h2>您选择的水果是: {{fruit}}</h2>
+
+        <!--2.多选列表-->
+        <select name="abc" v-model="fruits" multiple>
+            <option value="苹果">苹果</option>
+            <option value="香蕉">香蕉</option>
+            <option value="榴莲">榴莲</option>
+            <option value="葡萄">葡萄</option>
+        </select>
+        <h2>您选择的水果是: {{fruits}}</h2>
+
+
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                sex: "当前值",
+                isAgree: true,
+                hobbies: [],
+                originHobbies: ['篮球', '足球', '乒乓球', '羽毛球', '台球', '高尔夫球'],
+                fruit: "香蕉",
+                fruits: []
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>

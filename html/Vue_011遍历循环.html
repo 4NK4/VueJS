@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<!--vue是响应式的开发,但是某些特殊情况下,则不会进行响应
+
+    如通过index修改数组中的元素时,界面不会发生修改-------------------!!!这是个非常大的坑啊!!!!!
+    如果元素是一个对象类型,且修改的是对象里面的属性值,则界面会响应,即 如果是[i]=obj则不会触发,如果是[i].name=""则会触发
+
+
+    对数组操作且支持响应式的方法有:
+        push() 头部压入一个元素
+        pop() 删除最后一个元素
+        shift() 删除数组的第一个元素
+        unshift()数组最前面添加一个元素
+        splice()//删除/插入/替换,如果之传入第一个参数,则会删除后面所有元素
+        sort()
+        reverse()
+
+
+        如果实在是想通过索引去修改数组的值并且是响应式的,则使用:
+        Vue.set(数组,索引,值)
+
+    //这表示可变参数
+    function sum(...arg)
+    {
+
+
+    }
+
+
+-->
+<body>
+    <!--循环遍历用于对元素进行N次渲染-->
+    <script src='../lib/vue-2.6.10.js'></script>
+    <div id='app'>
+        <!--1.在遍历对象的过程中, 如果只是获取一个值, 那么获取到的是value-->
+        <ul>
+            <li v-for="item in info">{{item}}</li>
+        </ul>
+
+
+        <!--2.获取key和value 格式: (value, key) 注意值与key在参数中的顺序-->
+        <ul>
+            <li v-for="(value, key) in inof2">{{value}}-{{key}}</li>
+        </ul>
+
+
+        <!--3.获取key和value和index 格式: (value, key, index) -->
+        <ul>
+            <li v-for="(value, key, index) in info">{{value}}-{{key}}-{{index}}</li>
+        </ul>
+
+
+        <!--只有当key的值与展示的内容的值是一一对应的,就可以让vue采用插值算法,否则就遍历替换算法(效率极低)
+            key的值不要绑定index 因为index与内容是不一一对应的,如,插入某一个元素时,所有此元素之后的index
+            对应的值都变化了
+
+            当不使用key时 偏向于复用修改,即2换成3  3换成4 4换成5...这种算法
+            当使用key时,偏向于创建,即插入一个元素
+
+            非常需要注意的一点就是:如果使用了key则一定要保证内容不重复,否则 直接报错
+
+            可以将key注释,在chrome看看插入的渲染过程,可以发现其中很多元素都产生了变化
+        -->
+        <ul>
+            <li v-for="item in letters" :key="item">{{item}}</li>
+        </ul>
+
+        <button v-on:click="insertEl">插入一个P元素</button>
+        <button v-on:click="updateEl">修改第二个元素为Kk</button>
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                info: ["sdafa", "asdfasdf", "ewgegsdfc"],
+                letters: ['A', 'B', 'C', 'D', 'E'],
+                inof2: {
+                    mm: "ccc",
+                    af: "afwe",
+                    asdf: 123
+                
+                }
+            },
+            methods: {
+                insertEl() {
+                    //splice是数组类型的分割算法,这里表示从偏移2号位,截取0个元素,在此插入一个p
+                    this.letters.splice(2, 0, 'P')
+
+                },
+                updateEl(){
+                    this.letters[1]='KK'
+                }
+
+            }
+        })
+    </script>
+</body>
+
+</html>

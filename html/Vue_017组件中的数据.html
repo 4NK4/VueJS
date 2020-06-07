@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!-- 组件不能直接访问vm根对象的data中的数据,组件有自己的数据区域 -->
+
+<body>
+    <script src='../lib/vue-2.6.10.js'></script>
+    <div id='app'>
+        <cnp_panel></cnp_panel>
+        <cnp_panel></cnp_panel>
+        <cnp_panel></cnp_panel>
+    </div>
+
+    <template id="cnp_tp_panel">
+        <div>
+            <h1>{{message}}</h1>
+            <button @click="upd">修改内容</button>
+        </div>
+    </template>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            components: {
+                cnp_panel: {
+                    template: "#cnp_tp_panel",
+                    data: function () {//每次返回一个新的对象,是的组件的数据进行隔离,当然这里也不能传递对象,否则会报错
+                                       //,就算能传递对象,那么组件复用的时候,那都修改的同一个对象中的值,而所有组件都指向了这个对象,导致组件一改全改,那就没有什么意义了
+                        return {//这里的返回值 千万不要使用某个全局的对象,否则上述重蹈覆辙
+                            message: "hello  component"
+                        }
+                    },
+                    methods: {
+                        upd: function () {
+                            this.message = "嗯 不错 很好用!"
+                        }
+                    }
+                }
+            },
+
+        })
+    </script>
+
+</body>
+
+</html>

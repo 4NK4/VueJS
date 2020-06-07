@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <script src="../lib/vue-2.6.10.js"></script>
+
+    </head>
+    <body>
+        <div id="app">
+            <!--函数是类的,方法是对象的-->
+            <!--浏览器的解析还是按行解析,所以body中的所有元素会原样打出,但是当执行到js脚本中的Vue对象时,他会来替换界面元素的内内容-->
+            <h1>
+                {{kkk}}<!--插值语法 又称Mustache语法 又称 取值语法 又称 被解析标记-->
+            </h1>
+
+            <h2>
+                <!--插值语法中的内容可以是表达式 可以是变量  可以是方法调用-->
+                <!--{{}}一旦被渲染到Dom中,则内容就是字符串形式-->
+                {{vvv}}
+            </h2>
+        </div>
+
+        <script>
+            //let 变量 const 常量
+            //声明式编程
+            var vm=new Vue({ 
+                el: '#app',//管理一个元素对象,表示vm对象中的数据只针对app元素,如果其它元素用了取值{{}}运算符时,不会取到Data中的值,一般都是某个元素集合的父级名称,因为data中有多属性,
+                //如此便实现了前端与业务逻辑的分离,因为前端的数据只需要取值运算符内定义一个变量,不用管内容了.也实践了 响应式开发,既数据改变 则界面改变
+                data:{
+                    kkk:"hello vue",
+                    vvv:"ok"
+                },//这个对象中定义的属性,可以在HTMl中使用{{}}来取值
+                 //比较:以前是需要寻找元素,定义变量,然后把变量赋值给元素.(命令式编程)
+                 //kkk 可在浏览器console中由vm.kkk取值得到
+                methods: {}
+            })
+        </script>
+        
+    </body>
+</html>

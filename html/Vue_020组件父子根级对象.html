@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 
+        $children
+        $parent
+        $root
+        一般都不推荐使用$parent 和$child,因为前者会加深耦合,而组件本身就是复用属性的,
+        后者在组件中的位置是不一定的,根据索引去取,在插入删除某些组件的时候,导致所有变化.
+     -->
+
+</head>
+<body>
+    <script src='../lib/vue-2.6.10.js'></script>
+    
+    <div id='app'>
+        <h1>{{count}}</h1>
+        <button @click="printf">点击</button>
+        <cnp1></cnp1>
+    </div>
+
+    <template id="cnp1">
+        <div>
+            <label>第一子组件</label>
+            <button @click="printf">点击</button>
+        </div>
+    </template>
+
+    <script>
+
+
+        var vm=new Vue({ 
+            el: '#app',
+            data:{
+                count:0,
+                name:"root"
+            },
+            methods:{
+                printf(){
+                    console.log("我是跟组件,我的子组件有:"+this.$children[0].name);
+                }
+            },
+            components:{
+                cnp1:{
+                    template:"#cnp1",
+                    methods:{
+                        printf()
+                        {
+                            console.log("我是第一组件,我的父级是:"+ this.$parent.name);
+                            console.log("我是第一组件,我的根级是:"+ this.$root.name);
+                        }
+                    },
+                    data(){
+                        return{
+                            name:"001"
+                        }
+                    }
+                }
+            }
+
+        })
+    </script>
+    
+</body>
+</html>

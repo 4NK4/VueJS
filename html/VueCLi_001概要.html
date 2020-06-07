@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!--
+    vue cli脚手架解决了什么问题?
+        开发一个基于vue的项目时,默认最佳第配置好了基础使用环境!节省了开发时间,和填补了未知的漏洞
+        1.安装
+            npm i -g @vue/cli
+            查询版本:
+            vue --version
+        2.创建项目
+
+            1.vue create 项目名称
+            2.如果是局部安装的话,则需要使用 npx vue create AppName
+            3.也可以使用UI界面来操作
+                全局:vue ui
+                局部:npx vue ui
+
+                这里打开文件夹->cmd 进入指定文件夹创建
+                或者vscode 使用右键文件夹进入terminal 创建
+            4.项目配置:
+                1.是否选择路由 代表了是否安装
+                    vue-core vue-router vuex
+                2.是否ESlint,表示是否使用一个标准的规范约束js代码
+                3.end to end 端到端测试,是一种浏览器上自动化测试的方式
+        3.如果npm安装vue/cli失败怎么办?去删除C:\Users\Mr_Ta\AppData\Roaming中的npm-cache
+        4.如何在vuecli中关掉eslint?
+            config文件夹下index.js 中有相关属性设置
+        5.关于vue  runtimeonly版本中的render对象:
+            它可以传入标签的名称(string),属性(对象),内容(数组,可以再包含标签),然后直接替换掉vue绑定的元素
+            也可以传入一个组件对象,它能自动帮忙注册组件,不需要使用components注册了,它本身就用来渲染元素,也就不需要
+            template去渲染到界面了.
+
+            为什么runtimeonly体积更小,效率更高呢?因为过程不一样了:
+            runtime-compiler(v1)
+                template->ast->render->vdom-dom
+            runtime-only(v2)
+                render->vdom->dom
+
+            至于.vue文件中的template怎么办?难道不需要template->ast这个过程解析吗?
+                不需要.因为.vue文件导入打包通过vue-template-compiler(npm安装的)编译后就没
+                有相关的template的东西了,都转化成了render
+            vuecli3以上的0配置的,如果需要自己的配置,那么需要添加一个被vueCLi指定名称
+                vue.config.js
+                    module.export={}
+                这个配置文件会被合并到webpack中
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-->
+<body>
+    
+</body>
+</html>

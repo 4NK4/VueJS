@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<!-- 1. 导入Vue包  -->
+<!-- 2. 创建一个vue实例 -->
+
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+        <script src="../lib/vue-2.6.10.js"></script>
+
+    </head>
+    <body>
+        
+        
+        <!-- MVVM-V视图 -->
+        <div id="app">
+            <p>{{moves}}</p><!--这里会将数组直接转为字符串形式,直接打印成一串字符串-->
+            <p>{{moves[2]}}</p><!--变量接受的就是数组,那么就可以使用索引,其实花括号可以看作表达式区域-->
+            <p v-for>21654654654</p><!--这样子给标签添加任意名称的属性是不会报错的,所以Vue利用了这个特性,指明了指定名称的解析方式-->
+            <p v-for="item in moves">kkkkkk</p><!--这一行表达的是,根据moves的总数N,复制该元素N次-->
+            <p v-for="item in moves">{{item}}</p><!--此处的item是有状态的,是个状态机模式,即下一次取下一个item值-->
+
+
+        </div>
+
+
+        <script>
+            //MVVM-VM调度者
+            var vm=new Vue({ 
+                el: '#app',
+
+                //MVVM-M 视图的数据来源
+                data:{
+                    msg:'欢迎学习Vue',
+                    moves:['asdfs','打法','阿斯蒂芬大概','阿斯蒂芬']// moves.push()用于向数组添加元素
+                }
+            })
+        </script>
+        
+    </body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src='../lib/vue-2.6.10.js'></script>
+    <div id='app'>
+        <h1>{{count}}</h1>
+        <!--如果vue标识的事件绑定(v-on)没有要求传递参数,则可以不带括号,否则需要带括号,
+            一种特殊的情况是 当使用了没有括号的调用方式时,vue中的方法有却有一个参数,
+            那么这个参数就是默认的event鼠标对象,这个默认的鼠标对象也可以使用$event
+            这个固定的标识获取并传参 -->
+        <button @click="btnClick('123',$event)">点击我</button>
+
+
+        <!--.prevent 阻止按钮的默认事件行为-->
+        <form action="baidu">
+            <input type="submit" value="提交" @click.prevent="submitClick">
+        </form>
+
+        <!--.stop阻止事件向下的传递,为了解决如果某个较小的按钮在某个较大的并有点击事件的元素上,那么点击这个按钮的同时也会触发底下的那个元素-->
+        <div @click="divClick">
+            aaaaaaa
+            <button @click.stop="btnClick">按钮</button>
+        </div>
+
+        <!--.按键简称/按键编码 监听某个键盘的键帽-->
+        <input type="text" @keyup.enter="keyUp">
+        <!--这个表示只监听enter键的放开动作-->
+
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                count: 0
+            },
+            methods: {
+                btnClick(arg, event) {
+                    console.log(arg, event);
+                },
+
+                divClick() {
+                    console.log("divClick");
+                },
+
+                submitClick() {
+                    console.log('submitClick');
+                },
+
+                keyUp() {
+                    console.log('keyUp');
+                },
+
+            }
+        })
+    </script>
+</body>
+
+</html>

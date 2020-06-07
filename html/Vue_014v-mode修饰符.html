@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<!--
+    .lazy  当用户输入时,一般不需要频繁的监听结果,而是等失去焦点或者敲回车键结束当前输入后再做更新
+    .number  v-mode 绑定的value 其model最终都是string类型,所以如果要使其model中的值为number类型 需要加此修饰
+    .trim  虽然HTML中的元素显示一些值 会默认去掉空格,但是实际存储的值 如果有空格则该值还是有空格,所以让值头尾没有空格,则需添加此修饰
+-->
+<body>
+    <script src='../lib/vue-2.6.10.js'></script>
+    <div id='app'>
+        <label>实时加载 <input type="text" v-model="count"></label> 
+        <label>懒加载<input type="text" v-model.lazy="count"></label> 
+
+        <label>不加Number修饰 <input type="number" v-model="count"></label> <!--输入的值再model中都是string类型,虽然type都已经约束了只能输入数字-->
+        <label>加Number修饰 <input type="number" v-model.number="count"></label> 
+
+        <label>不去掉空格 <input type="text" v-model="message"></label> 
+        <label>去掉空格 <input type="text" v-model.trim="message"></label> 
+        
+        <h1>{{typeof count}}</h1>
+        <h1>{{count}}</h1>
+        <h1 style="white-space:pre;">{{message}}</h1>
+
+    </div>
+    <script>
+        var vm=new Vue({ 
+            el: '#app',
+            data:{
+                count:0,
+                message:""
+            },
+            methods:{
+            }
+        })
+    </script>
+</body>
+</html>

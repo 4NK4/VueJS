@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<!--
+    组件与模块不是一个同一个东西
+    封装组件的基本步骤:
+        创建组件构造器:Vue.extend()
+        注册组件(全局注册与局部注册) Vue.Compenent()
+        使用组件 在Vue实例范围内使用组件
+
+    cpm 是compenent的缩写
+
+    ES6中的模板符``(非单引号)是可以不使用+号进行换行的,它里面可以直接装HTML,一般在js代码中使用
+
+    一定要注意:
+        组件的使用 一定是vue管理的元素中使用,否则html是不认识这个标签的
+        模板需要一个根元素,不能出现同级元素并列在根部
+        组件名 (字母全小写且必须包含一个连字符,不能数字开头),避免使用时与html元素冲突
+
+    VueCli是vue的脚手架,即构造基于vue的项目
+
+     组件本身可以在vm对象外注册(全局组件),也可以在vm的参数对象内注册(局部组件),也可以在组件内注册(父子组件)
+     注意注册的含义!!!!!
+     注册有两种写法:
+        Vue.component("名称",组件对象)--第二个参数既然是组件对象,那么可以是extend后的引用,也可以是extend方法本身!!!即语法糖形式
+        components:{
+            名称:组件对象
+        }
+    在组件内注册了组件的好处是:组件模板内可以使用组件了!原先是只能在app元素内使用
+
+
+    父子组件的创建顺序是顺序的,现有子组件 后有父组件
+-->
+
+<body>
+    <!--现在有一个需求:
+     假设这是小说的基本格式,每个页面都需要使用,不通过复制的方式,请问如何重复的使用,并且可以改变内容?    
+    -->
+
+    <h1>这是标题</h1>
+    <p>这是小标题</p>
+    <hr />
+    <label style="white-space: pre;"> 这是文本内容区域...</label>
+    <br /><br /><br /><br /><br /><br />
+    <hr />
+
+    <!-- 解决办法:vue组件!!!!!!!!-->
+
+    <script src='../lib/vue-2.6.10.js'></script>
+
+    <div id='app'>
+        <ank4_story_panel></ank4_story_panel>
+
+        <cnp0></cnp0>
+        <cnp1></cnp1>
+        
+    </div>
+
+
+    <script>
+        //创建模板
+        const cnpCtor = Vue.extend({
+            template: `
+            <div>
+                <h1>这是标题</h1>
+                <p>这是小标题</p>
+                <hr/>
+                <label style="white-space: pre;">           这是文本内容区域...</label>
+                <br/><br/><br/><br/><br/><br/>
+                <hr/>
+            </div>
+                 `
+        })
+
+        //注册模板--这个就是注册的全局组件,他能在其它的vue实例中使用,比方说 有一个vm2,它管理了app2,在app2中使用自定义组件也是可行的
+       // Vue.component("ank4_story_panel",cnpCtor)
+        //使用模板:在html代码中,且在vue管理的元素中
+
+
+        //父子组件----------------------------
+        const childCnp=Vue.extend({
+            template:`
+            <div>
+                <hr/>
+                <label style="white-space: pre;">           子组件内容区域...</label>
+                <br/><br/><br/><br/><br/><br/>
+                <hr/>
+            </div>
+            `
+        })
+
+        const FartherCnp=Vue.extend({
+            template:`
+            <div>
+                <h1>父子组件</h1>
+                <p>这是小标题</p>
+                <cnp1></cnp1>
+            </div>
+            `,
+            components:{
+                cnp1:childCnp
+            }
+        })
+
+
+
+
+        //局部组件 需要在vue实例的参数对象中的components属性中注册
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            components:{
+                ank4_story_panel:cnpCtor,      //key是组件名称,value是组件对象     
+                cnp0:FartherCnp,
+                cnp1:childCnp
+            },
+            methods: {}
+        })
+    </script>
+
+</body>
+
+</html>

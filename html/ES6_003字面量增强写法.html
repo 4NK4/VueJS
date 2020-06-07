@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        const func = new Object();
+        const func1 = {}; //这个就叫做字面量增强写法,称为字面量方法
+
+
+        //!!!!!!!!!!!!!!!!!----------对象解构!!!!!!!!!!!!!!!!----非常重要的概念,这是为什么很多对象的属性会被省略,直接写字面量方法的原因
+
+        const name = "dafadf";
+        const age = 15;
+        const sex = "男";
+
+        //以前普通的方式
+        const obj1 = {
+            name : name,
+            age :age,
+            sex : sex
+        }
+
+        //对象解构方式
+        const obj2 = {
+          name,
+          age,
+          sex
+        }
+
+        const func7=function(){
+            console.log("helo");
+        }
+
+        //函数的解构方式
+        const obj3={
+           func7
+        }
+
+        const obj4={
+            func9(){
+                console.log("另一种对象结构方式");
+            }
+        }
+
+
+        console.log(obj1);
+        console.log(obj2);
+        console.log(obj3.func7());
+        console.log(obj4.func9());
+
+
+    </script>
+
+</body>
+
+</html>

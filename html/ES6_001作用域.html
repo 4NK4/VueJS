@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var mm = 1000;
+        (function () {
+            var mm = 1
+        })()
+
+        console.log(mm);
+
+        var kk = 1000; {
+            var kk = 1 //即使使用了块语法,但是这里会覆盖掉上面的KK定义
+        }
+        console.log(kk);
+
+
+        // if  和for 都是没有块级作用域的,这意味着其中定义的变量会覆盖掉全局的同名变量
+        //下面的定义就没有摧毁掉全局的dd定义
+        var dd = 100;
+        function func() {
+            var dd=1;
+        }
+        func()
+        console.log(dd);
+
+
+        //引用与定义不是同一个概念*************************************************!!!!!!!!!!!!!!!!!!重要的
+        var dd = 100;
+        function func() {
+             dd=1;//这就属于引用了,全局的值肯定是会变化的
+        }
+        func()
+        console.log(dd);
+        
+    </script>
+</body>
+
+</html>

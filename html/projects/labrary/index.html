@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css" />
+</head>
+
+<body>
+    <div id='app'>
+        <table>
+            <thead>
+                <tr>
+                    <th>编号</th>
+                    <th>书籍名称</th>
+                    <th>出版日期</th>
+                    <th>价格</th>
+                    <th>购买数量</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item,index) in Books">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.date}}</td>
+                    <!--价格由$符号 和浮点数组成,因此可以在此拼接,或者通过方法转换,但是两者都不够雅观,应使用过滤器 转换的对象|过滤器名称-->
+                    <td>{{item.price|showPrice }}</td>
+                    <td>
+                        <button @click="add(index)"> + </button>
+                        {{item.count}}
+                        <button @click="sub(index)" :disabled="item.count<1"> - </button>
+                    </td>
+                    <td><button @click="removeHandle(index)">移除</button></td>
+                </tr>
+
+                <tr>
+                    <td colspan="6" v-if="Books.length">
+                        总价格:{{PriceTotal |showPrice}}
+                    </td>
+                </tr>
+
+                <tr v-if="Books.length<1">
+                    <td colspan="6">购物车为空</td>
+                </tr>
+
+            </tbody>
+        </table>
+
+    </div>
+    <script src='../../../lib/vue-2.6.10.js'></script>
+    <script src='index.js'></script>
+</body>
+
+</html>

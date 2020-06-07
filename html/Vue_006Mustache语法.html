@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<!--
+
+    插值操作----都是在元素的content(即双标签的中间)中插入值
+        {{}} 对在HTML中此标记的内容进行插值 
+        v-once 只在初始化(vue挂载时)显示,后续对vue对象的相关标记进行属性值修改时,值将保持不变,即不响应式标记
+        v-text=""  等效于{{}}
+        v-html="" 将 ""内容解析为HTML
+        v-pre 相当于转义符  即{{}}会被原样输出,而不是当成vue中的标记被解析替换
+        v-cloak 需在style搭配中[v-cloak]{display:none;} HTML是按行解析的,所以当网速不够快,这个{{}}还没被vue解析替换时,
+                将会在HTMl中直接显示{{}}符号,因此使用V-clock去屏蔽这种缺陷,使其不显示
+                由于后续使用了虚拟DOM,所以这个属性基本不会被使用
+
+    绑定属性----是对元素的属性值进行插值
+   
+    计算属性
+    事件监听
+    条件判断
+    循环遍历
+    v-model
+-->
+
+<body>
+    <script src='../lib/vue-2.6.10.js'></script>
+    <div id='app'>
+        <!--由于style中设置了[v-cloak]{display:none;}所以它不显示, 当vue挂载完成时,
+            vue会删除元素上v-cloak属性,导致style失效 于是又显示-->
+        <h2 v-cloak>{{message+'hhhah'}}</h2>
+        <h2 v-pre>{{message}}</h2>
+        <h2 v-once>{{message}}</h2>
+        <h2>{{message}}, 李银河!</h2>
+        <!--这里比v-text标记好一些,能灵活的拼接-->
+        <h2>{{firstName + lastName}}</h2>
+        <h2>{{firstName + ' ' + lastName}}</h2>
+        <h2>{{firstName}} {{lastName}}</h2>
+        <h2>{{counter * 2}}</h2>
+        <!--使用表达式 运算一个乘法-->
+        <h2>{{url}}</h2>
+        <!--这里直接显示字符串-->
+        <h2 v-text="url">1111</h2>
+        <!--这里直接显示字符串,v-text等效于{{}} 但是有缺陷,v-text是直接覆盖填充1111,但在高延迟的情况下,又是优点,它能够默认显示一些值,而后被填充,而使用{{}}将是代码-->
+        <h2 v-html="url"></h2>
+        <!--""中的url属于内域表达式,v-html表示将表达式解析成HTML形式,而非字符串 -->
+
+
+
+    </div>
+    <script>
+        //执行后等待一秒再返回
+        setTimeout(function () {
+            var vm = new Vue({
+                el: '#app',
+                data: {
+                    message: 'zzz',
+                    firstName: 'kobe',
+                    lastName: 'bryant',
+                    counter: 100,
+                    url: "<a href='http://www.baidu.com'>百度一下</a>" //假设服务器返回了这么一个字符串
+                },
+                methods: {}
+            })
+        }, 2000)
+    </script>
+</body>
+
+</html>

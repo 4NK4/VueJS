@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+   
+
+
+    </head>
+    <body>
+        <script src="../lib/vue-2.6.10.js"></script>
+        <div id="app">
+            <h1>{{count}}</h1><!--实现计数器-->
+            <button v-on>...</button><br/><!--这一行表示监听一个事件-->
+            <button v-on:click>...</button><br/><!--这一行表示监听一个点击事件-->
+            <button v-on:click="count++">+</button><br/><!--这一行表示监听一个点击事件,且执行一个内域表达式,count是上下文的变量,内域的意思就是js中负载app元素的上下文脚本-->
+            <button v-on:click="count--">-</button><br/><!--是否可以想到这里也可以执行方法呢?是肯定的,因为这里就是表达式,它的上下文就是vm对象-->
+            <button v-on:click="add">+</button><br/><!--这里直接调用了上下文中的方法-->
+            <button @click="add">+</button><br/><!--语法糖,即用@符号替代v-on @表示监听一个事件 后面表示监听事件的类型-->
+
+
+        </div>
+
+        <script>
+            var count=10;
+            //MVVM-VM调度者
+            var vm=new Vue({ 
+                el: '#app',
+                data:{//data属性的值是一个对象类型,这里可以传递一个对象名称,但是取值的时候,会直接忽略该名称
+                    count:0
+                },
+
+                methods:{//可给界面的表达式区域使用
+                    add:function(){
+                        this.count++ //this表示使用的是当前的对象vm 否则会使用全局那值为10的那个count,而不是值为0的那个count
+                    }
+                }
+            })
+        </script>
+        
+    </body>
+</html>

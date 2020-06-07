@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<!--
+    slot插槽主要解决的问题:
+        相同结构,但具有局部变化的组件
+
+    当插槽没有名字时,那么组件内的内容将占这个没有名字的slot
+    当组件内有N个没有名字的插槽时,这N个插槽都将插入一个组件内容区域包含的元素
+    当组件内有指定名称时,组件内容区域没有使用solt指定名称,将被丢弃
+
+-->
+
+<body>
+    <script src='../lib/vue-2.6.10.js'></script>
+    <div id='app'>
+        <h1>{{count}}</h1>
+        <cnp>
+            <button>按钮</button>
+        </cnp>
+        <hr />
+
+        <cpn><span slot="center">标题</span></cpn>
+
+        <hr/>
+
+        <cpn><button slot="left">返回</button></cpn>
+
+        <hr />
+        <cnp>
+            <button>按钮</button>
+            <button slot="s1">按钮2</button>
+        </cnp>
+    </div>
+    <template id="cnp">
+        <div>
+            <span>哈哈</span>
+            <slot></slot>
+            <slot name="s1"></slot>
+
+            <slot name="left"><span>左边</span></slot>
+            <slot name="center"><span>中间</span></slot>
+            <slot name="right"><span>右边</span></slot>
+
+        </div>
+    </template>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                count: 0
+            },
+            methods: {},
+            components: {
+                cnp: {
+                    template: "#cnp"
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>

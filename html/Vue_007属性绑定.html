@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .active {
+            color: red;
+        }
+
+        .line{
+            display: block;            
+        }
+    </style>
+</head>
+
+<!--
+    绑定属性----是对元素的属性值进行插值
+        v-bind:  为某个属性添加标记,将其属性值内域化 可简写为 :
+
+    属性有单属性(值属性) 如 class 和多属性(键值对属性) 如style,
+-->
+
+<body>
+    <script src='../lib/vue-2.6.10.js'></script>
+
+    <div id='app'>
+        <!--
+        <h1>{{url}}</h1>
+        <img src="../doc/img/2020-05-27-23-27-13.png"></img>
+        <img src="{{url}}"></img><!--属性的值不可以使用插值语法-->
+
+        <!--不使用vue时一下不会报错,但也不会显示,如果使用vue则直接报错-->
+        <!-- <img v-bind:src="../doc/img/2020-05-27-23-27-13.png"></img>-->
+
+        <img v-bind:src="url"></img>
+        <!--v-bind: 在哪个属性前 Vue就会解析将该属性的值,其值是一个Vue的标记,这个标记会被解析为一个表达式-或变量-->
+
+        <!--v-bind绑定的属性值 可以是变量 数组 和对象,当为对象时:对象中的key作为字符串解析 Value作为变量解析-->
+        <!--v-bind绑定的对象时,可以采用N对键值对,但是为class的时候,只会取所有为Value为ture的Key-->
+        <!--注意被vue标识修饰的属性,其属性值(即引号中的内容)都是表达式-->
+        <h2 class="otherClass" :class="{active: isActive, line: isLine}">hello</h2>
+        
+        <!--注意属于表达式中的内容,其调用方法应使用()-->
+        <!--最好在浏览器中观察元素的属性情况-->
+        <h2 class="otherClass" :class="getClass()">hello</h2>
+        <h2 class="otherClass" :class="['active','line']">hello</h2>
+        <!--那么数组如何做键值对呢?使用对象-->
+        <!--class中的数组解析是不同的,它永远都是一个值表示引用的哪个样式,而style中是成对存在的,表示设置那类样式及什么值-->
+        <h2 :style="[mm,kk]">hello</h2>
+
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                url: "../doc/img/2020-05-27-23-27-13.png",
+                isActive: true,
+                isLine:true,
+                mm:{backgroundColor: 'red'},
+                kk:{fontSize: '100px'},
+            },
+            methods: {
+                getClass:function(){
+                    //注意对象的语法是 string类型的Key 和 变量组成
+                    //还需注意变量的上下文,所以应使用this 指向vm对象作上下文对象
+                    return {"active": this.isActive, "line": this.isLine}
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

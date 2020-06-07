@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <!--
+    什么时候使用箭头函数?
+        一般都是将函数作为参数的时候!
+
+    箭头函数的this指向:
+        箭头函数的this将一层层向上寻找一个有this的作用域,并使用该this
+        对象有自己的this
+        方法中的this谁调用该方法,this就是谁,一般的如果是一个函数,函数的参数是一个方法,这个函数在script中直接执行,则该函数实参这个方法中的this就是window
+
+        方法式回调,由window对象调用call执行
+        箭头函数的回调,非上述方式
+-->
+
+    <script>
+        const obj = {
+            aaa() {
+                setTimeout(
+                    function () {//这个函数是由window对象回调执行的
+                        setTimeout(function () {
+                            console.log(this); // window
+                        })
+
+                        setTimeout(() => {
+                            console.log(this); // window//它去上层找,结果有个window对象,于是就是window
+                        })
+                    })
+
+                setTimeout(() => {//---这个函数不是由window对象执行的,所以不包含this
+                    setTimeout(function () {
+                        console.log(this); // window
+                    })
+
+                    setTimeout(() => {
+                        console.log(this); // obj ---aaa 是由obj对象执行的,所以在aaa作用域中由一个this 就是obj
+                    })
+                })
+            }
+        }
+
+        obj.aaa()
+    </script>
+    <!---
+<script>
+const sum = (num1, num2) => {return num1 + num2}
+const power = num => {return num * num}//一个参数不需要括号
+const test = () => {                   //没有参数也需要括号
+    console.log('Hello World');
+    console.log('Hello Vuejs');
+  }
+
+const disn=kkkk=>console.log("daf"); //一个参数 一行代码 则所有括号省略
+const mul = (num1, num2) => num1 * num2 //一行代码 不需要写return 和花括号 这个有返回值就直接返回改值
+const demo = () => console.log('Hello Demo') //这个没有返回值 就返回undefined
+
+</script>
+
+<script>
+  // 1.参数问题:
+  // 1.1.放入两个参数
+  const sum = (num1, num2) => {
+    return num1 + num2
+  }
+
+  // 1.2.放入一个参数
+  const power = num => {
+    return num * num
+  }
+
+  // 2.函数中
+  // 2.1.函数代码块中有多行代码时
+  const test = () => {
+    // 1.打印Hello World
+    console.log('Hello World');
+
+    // 2.打印Hello Vuejs
+    console.log('Hello Vuejs');
+  }
+
+  // 2.2.函数代码块中只有一行代码
+  // const mul = (num1, num2) => {
+  //   return num1 + num2
+  // }
+  const mul = (num1, num2) => num1 * num2
+  console.log(mul(20, 30));
+
+  // const demo = () => {
+  //   console.log('Hello Demo');
+  // }
+  const demo = () => console.log('Hello Demo')
+  console.log(demo());
+
+-->
+    </script>
+</body>
+
+</html>

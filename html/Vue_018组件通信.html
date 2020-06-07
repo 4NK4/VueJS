@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!-- 
+    父级向子集传递数据:
+       Pass props 
+    子集向父级传递数据:
+       $emit Envent 自定义事件
+
+ -->
+
+<body>
+    <script src='../lib/vue-2.6.10.js'></script>
+
+    <div id='app'>
+        <h1 >{{message2}}</h1>
+        <cnp :propname="message1" @arg-click="recdata"></cnp>
+    </div>
+
+
+    <template id="cnp_tp_panel">
+        <div>
+            <h1>{{propname}}</h1>
+            <button @click="btnclick(resultjson)"> 发射一个传递给父级的数据</button>
+        </div>
+    </template>
+
+    <script>
+        const cnp = {
+            template: "#cnp_tp_panel",
+            props: ['propname'],
+            data() {
+                return {
+                    resultjson: "子向父级传递数据"
+                }
+            },
+            methods: {
+                btnclick(arg) {
+                    console.log(arg);
+                    
+                    this.$emit('arg-click', arg)
+                }
+            }
+        }
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message1: "hahha",
+                message2: ""
+            },
+            methods: {
+                recdata(arg) {
+                    this.message2 = arg
+                }
+            },
+            components: {
+                cnp
+            }
+
+        })
+    </script>
+</body>
+
+</html>

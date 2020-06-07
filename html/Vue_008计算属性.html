@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!--
+     计算属性:以属性的方式调用某个方法,一般都是返回的结合数据,也可以称之为属性模板
+            其实也就相当于.net 中的get set,get中的字段就是用来缓存的
+
+-->
+
+<body>
+    <script src='../lib/vue-2.6.10.js'></script>
+    <div id='app'>
+        <h1>{{count}} {{message}}</h1>
+        <h1>{{count+" "+ message}}</h1>
+        <h1>{{getFullName()}}</h1>
+        <h1>{{FullName}}</h1>  <!--这里要注意如果使用了某个方法的名称,则打印该方法的字符串形式,即computed中的属性名不要同methos中的方法名同名-->
+        <h1>购买的书籍总价格:{{PriceTotal}}</h1><!--计算属性就是让前端免去各种拼接,放个方法也不雅观,所以放属性是比较合理的-->
+        <!--计算属性是有缓存的,不像方法,需要每次都计算-->
+        <!--计算属性中涉及到的变量如果没有改变,则N次的使用,其隐含的et方法只会调用一次-->
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                count: 0,
+                message: "hello",
+                books:[
+                    {编号:"01002",书名:"计算机001",price:50},
+                    {编号:"01052",书名:"计算机001",price:40},
+                    {编号:"01052",书名:"计算机001",price:90}
+                ]
+            },
+            computed: {
+                FullName: function () {
+                    return this.count + " " + this.message
+                },
+
+                PriceTotal:function(){
+                    let count=0;
+                    for (let index = 0; index < this.books.length; index++) {
+                        const element = this.books[index];
+                        count+=element.price;
+                    }
+                    return count;
+                }
+            },
+            methods: {
+                getFullName: function () {
+                    return this.count + " " + this.message
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

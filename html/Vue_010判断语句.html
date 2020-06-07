@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <!--
+        v-if   v-elseif  v-else
+
+        Vue中的判断语句主要用来控制是否渲染被标记的元素
+
+        vue的虚拟dom会复用一些元素,当两个元素互斥时,相同类型元素(不同属性也会复用,除了标识了key的元素)会复用,其text内容
+        也会被复用
+
+        v-show与v-if相同,但是v-show用于常用隐藏/显示的元素,但是v-show使用的是display:none  而v-if直接销毁元素
+    -->
+    <script src='../lib/vue-2.6.10.js'></script>
+    <div id='app'>
+        <span v-if="isUser">
+            <label for="username">用户账号</label>
+            <input type="text" id="username" placeholder="用户账号" key="username">
+        </span>
+        <span v-else>
+            <label for="email">用户邮箱</label>
+            <input type="text" id="email" placeholder="用户邮箱" key="email">
+        </span>
+        <button @click="isUser = !isUser">切换类型</button>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                count: 0,
+                isUser:true
+            },
+            methods: {}
+        })
+    </script>
+</body>
+
+</html>
