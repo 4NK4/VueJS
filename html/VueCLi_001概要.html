@@ -49,6 +49,20 @@
                     module.export={}
                 这个配置文件会被合并到webpack中
 
+        6.路径别名
+            每次都是基于自身文件的相对路径 层层(上/下/统计)找其它文件,有点让人眼花缭乱不够直观
+            于是配置针对固定文件夹的别名,以后文件的路径都依赖这个固定文件的层级去寻找.
+            配置:
+                在生成的build文件夹下 webpack.base.config.js 
+                    resolver:
+                        extensions:... 
+                        alias:{
+                            '@':resolve('src') --他就是指定的src目录
+                            'views':resolve('@/views') --表示src的下一层views为固定路径,使用方式是 @views/...... 
+                             在vuecli2中需使用src/views 否则不会报错,但是不会显示引用资源,在dom中需要使用~符号进行标志 而非@
+                        }
+
+
             
 
 
