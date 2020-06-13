@@ -8,7 +8,14 @@
 </head>
 
 <body>
+   
     <script>
+      
+      //结论:
+        //所有非方法体内的变量 都是全局可访问 同名则覆盖的变量
+
+
+        
         var mm = 1000;
         (function () {
             var mm = 1
@@ -16,7 +23,9 @@
 
         console.log(mm);
 
-        var kk = 1000; {
+        var kk = 1000; 
+
+        {
             var kk = 1 //即使使用了块语法,但是这里会覆盖掉上面的KK定义
         }
         console.log(kk);
@@ -39,7 +48,7 @@
         }
         func()
         console.log(dd);
-        
+    
     </script>
 </body>
 

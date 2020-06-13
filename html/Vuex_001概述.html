@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!-- 
+    浏览器安装:
+        vuex-devtools
+    
+    修改值时不要直接修改state,应该经历以下过程
+    Vue Components->Actions->Mutations->state
+
+    使用:
+        const store = new Vuex.Store({
+            state:{
+
+            }...
+        })
+        import store from './****'
+        new Vue({
+            el:..
+            ...
+            store,
+        })
+        Vue.use(Vuex)
+    核心:
+        State   保存公共变量  单一状态数(单一数据源)
+                原本:
+                    不同信息在不同系统中存储---信息划分清晰,保证了信息的安全性
+                    缺点:
+                        办理业务时,需要到处获取信息.
+                现在:
+                    推荐只用一个 const store = new Vuex.Store(),而不是new 多个
+
+                注意:
+                    state中的属性必须是初始化好的,如state.info['adress']='洛杉矶' 这样子是不会响应式的
+                    如果需要其响应式,则需要使用Vue.set()
+                    删除对象的属性:
+                        普通的非响应式:delete state.info.age
+                        响应式:Vue.delete(state.info,'age')
+
+                        
+
+        Getters 类似计算属性
+                设置:
+                    getters:{
+                        powerCount(state,这里可以传入getters自身,比如getters中某个方法的复用){
+                          return state.某个共享属性 * 2
+                        }
+                    }
+                特殊设置:
+                    传参:  
+                    getters:{
+                        powerCount(state,getters) {
+                            return function(arg){   
+                                return state.CustAttribute*arg
+                            }
+                        }
+                    }
+
+                获取:
+                    $store.getters.powerCount
+                    $store.getters.powerCount(10)
+
+        Mutation 修改对象状态
+                当Mutation中修改的属性值是异步方式修改的时候,如定时1秒钟后修改,那么vue-tools的显示会不正常,但其他都正常--使用Action解决
+                设置:
+                    mutations:{
+                        //这个count这个参数有个专门的名称: mutation的payload (负载 载荷)
+                        incrementCount(state,count){
+                            state.CustAttribute+=count
+                        }
+                    }
+                使用:--包含了传参
+                    mehods:{
+                        ...,
+                        addCount(count){
+                            this.$store.commit('incrementCount',count)--由于这种根据名字找方法式的写法很容易出错,于是使用常量式写法
+                        }
+                    }
+                    
+                常量式写法:
+                    在store文件夹中创建一个mutations-types.js
+                        定义:export const INCREMENT='increment'
+                        导入:import {INCREMENT} from './store/mutations-types'
+                        设置:[INCREMENT](state,count){....}
+                        使用:this.$store.commit(INCREMENT,count)
+
+                     
+                    
+        Action  异步操作
+                    解决Muatation的异步漏洞
+                    设置:--context是默认值,就是store对象,但是模块化中含义不同
+                        actions:{
+                            upDateInfo(context,arg){
+                                setTimeout(()=>{
+                                    context.commit('Muatation中的方法名')
+                                    console.log(arg)
+                                },1000)
+                            }
+                        }  
+                     使用:
+                        this.$store.dispatch('upDateInfo','我是arg') ---为什么这里是dispatch而不是commit呢?需要看vuex中的一张图
+
+        Module  划分模块
+                解决方法体内 内容太多的问题
+                其实本质就是把module中的对象丢到 state中
+                设置:
+                    modules:{
+                        a:{
+                            state:{},
+                            mutations:{},
+                            actions:{},
+                            getters:{},
+                            modules:{}
+                        },
+                        b:{
+                            state:{},
+                            mutations:{},
+                            actions:{},
+                            getters:{},
+                            modules:{}
+                        }----或者moduleB
+                    }
+         
+        平常: $store.state.共享属性名 获取
+        模块:$store.state.a->moudleA的状态
+             $store.state.b->moudleB的状态
+        模块中getter:
+                定义不变,使用不变(注意名字不要重复)
+        模块中的mutations:
+                定义不变,使用不变(注意名字不要重复)
+        模块中引用父级的state:
+                第三个参数为rootState
+        模块中的actions:
+                actions中的方法修改state中的状态时,其context.commit()调用的就是模块中的mutations中的方法
+                其他不变.
+
+        Vuex项目结构:
+                sotre
+                    index.js
+                    actions.js
+                    mutations.js
+                    modules
+                        cart.js
+                        products.js
+ -->
+
+<body>
+
+</body>
+
+</html>
