@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<!-- 
+    发送基本请求
+    axios创建实例
+    axios拦截器的使用
+
+    常见的发送网络请求的方式很多:
+    XHR(XMLHttpRequest)
+    Jquery-Ajax
+    Vue-resource--不再维护
+    axios(ajax i/o system)
+    jsonp用来解决跨域问题
+
+    axios支持
+        在浏览器只能发送XHR请求
+        在node.js 中发送http请求
+        支持Promise API
+        拦截请求和响应
+        转换请求和响应数据
+
+        axios的请求方式
+            axios(config)
+            axios.request(config)
+
+            axios.get(url[,config])
+            axios.delete(url[,config])
+            axios.head(url[,config])
+
+            axios.post(url[,data[,config]])
+            axios.put(url[,data[,config]])
+            axios.patch(url[,data[,config]])
+      
+    这里使用的是全局的axios 并非是axios实例
+      npm i axios
+      import... 
+      axios({
+          url:"....",
+          params:{
+              参数拼接,省去了?号
+          }
+      }).then(res=>{
+          log(res)
+      })
+
+      Promise.all中能封装多个promise请求,且要求都完成都返回
+      .then里面返回的是一个结果数组,他们是各个promise返回的结果
+
+      axios中封装了一样的东西:
+        axios.all([axios({
+            url:''
+        }
+        ),axios({
+            url:''
+        })]).then(resualt=>{
+            resualt[0]
+            resualt[1]
+        })或者直接将结果分出来
+        .then(axios.spread((res1,res2)=>{
+            res1
+            res2
+        }))
+
+
+        全局配置:
+          BaseURL 即url前缀重复 和head信息都是重复的 应有优化
+          axios.defaults.baseURL='192.168.21.2:8050'
+          axios.defaults.headers.post['Content-Type']='application/x-www-form-urlencoded'
+          常见的需全局配置的:
+          method:'get'
+          transformRequest:[function(data){}]--请求前的数据处理
+          transformResponse:[function(data){}]--请求后的数据处理
+          headers:{},
+          params:{id:2}--当post请求时不需要使用哦
+          paramsSerializer:function(params){}--查询对象序列化函数
+          data:{key:value} request body--当post请求时需要
+          timeout:1000超时设置
+          withCredentials:false 跨域是否带Token
+          adapter:function(resolv,reject,config)()自定义请求处理
+          auth:{uname:"",pwd:''}身份验证信息
+          responseType:'json/blob/document/stream/arraybuffer/text' 响应数据格式
+
+    当遇到分布式服务时,其Ip都不会相同,于是使用全局的axios其baseURL就不好设置了,且各种延时都不会相同,于是有axios实例
+    实例axios:
+        const axiosInstance1= axios.create(
+            {
+                baseURL:'http://192.168.1.11'
+                timeout:5100
+            }
+        )
+
+         const axiosInstance2= axios.create(
+            {
+                baseURL:'http://192.168.101.121'
+                timeout:500
+            }
+        )
+
+        axiosInstance1({
+            url:'/home/data'
+            ..
+        })
+
+          axiosInstance2({
+            url:'/home/data',
+            params:{
+                type:'pop'
+                page:1
+            }
+            ..
+        })
+
+    引入第三方库的时候,不要每一个组件都对其有依赖,这会导致一些后期修改组件的麻烦
+    应该模块化封装.
+
+
+    拦截器应用:
+        1.可以显示一些进度条动画
+        2.某些网络请求(登陆)没有token,可以直接跳转到登陆页面
+        3.可以过滤掉某些不符合服务器的配置
+
+    四种拦截器:
+        请求成功拦截
+        请求失败拦截
+
+        aixosInstance.interceptors.request.use(
+            config=>{--这个参数 其实就请求的config配置
+                --这里是请求成功的拦截
+                console.log(config)
+                return config--这里如果不返回,则无法获取到结果,因为已被拦截
+            },
+            err=>{
+                --这里是请求失败的拦截
+            }
+        )
+
+        响应失败拦截
+        响应成功拦截
+        aixosInstance.interceptors.response.use(
+            res=>{
+                //这是服务器返回的数据
+                return res.data--这里如果不返回,其他地方拿到的都是undefined
+            },
+            err=>{
+
+            }
+        )
+ -->
+
+<body>
+
+</body>
+
+</html>
